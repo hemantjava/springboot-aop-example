@@ -21,11 +21,8 @@ public class EmployeeAspect {
   // @Around("execution(* com.hemant.aopexampleall.service..*(..)))")
   @Around("@annotation(LogExecutionTime)")
   public void profileAllMethods(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-    MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
+    final String methodName = proceedingJoinPoint.getSignature().toShortString();
 
-    //Get intercepted method details
-    String className = methodSignature.getDeclaringType().getSimpleName();
-    String methodName = methodSignature.getName();
 
     //Measure method execution time
     LocalDateTime st = LocalDateTime.now();
@@ -33,7 +30,7 @@ public class EmployeeAspect {
     LocalDateTime ed = LocalDateTime.now();
 
     //Log method execution time
-    log.info("Execution dateAndTime of " + className + "." + methodName + " " +
+    log.info("Execution dateAndTime of "+methodName+
         "date " + st.toLocalDate() + " " + (ed.getNano() - st.getNano()) / 1000000 + " ms");
   }
 
@@ -49,7 +46,7 @@ public class EmployeeAspect {
 
   @AfterThrowing("execution(* com.hemant.aopexampleall.service..getEpmThrowException())")
   public void logExceptions(JoinPoint joinPoint){
-    log.info("Exception thrown in Employee Method="+joinPoint.toString());
+    log.info("Exception thrown in Employee Method="+joinPoint.getSignature().toShortString());
   }
 
   @AfterReturning(pointcut="execution(* com.hemant.aopexampleall.service..getEpmName())", returning="returnString")

@@ -1,4 +1,4 @@
-package com.hemant.aopexampleall.service.controller;
+package com.hemant.aopexampleall.controller;
 
 import com.hemant.aopexampleall.aspect.LogExecutionTime;
 import lombok.extern.log4j.Log4j2;
